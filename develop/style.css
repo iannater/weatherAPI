@@ -1,0 +1,17 @@
+h1{
+    margin: 0;
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(51, 51, 51);
+    color: white;
+}
+
+#forecast{
+    border: 5px solid black;
+}
+
+.currentWeather{
+    border: 5px solid black;
+
+}
+
