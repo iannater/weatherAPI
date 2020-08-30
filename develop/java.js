@@ -24,15 +24,20 @@ $(document).ready(function () {
             url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`,
             dataType: "json"
         }).then(function (res) {
-            console.log(res.weather[0].icon)
+            console.log(res.sys.sunrise)
 
             if (history.indexOf(city) === -1) {
                 history.push(city)
                 localStorage.setItem("history", JSON.stringify(history))
             }
-
+            var currentUnix = res.sys.sunrise;
+            var unixConvert = currentUnix * 1000;
+            var currentDateCalc = new Date (unixConvert);
+            var curDateNorm = currentDateCalc.toLocaleString().split(",");
+            var curDateFinal = curDateNorm[0];
             var cardContent = $("<div>");
             var name = $("<h3>").text(res.name);
+            var curDate = $("<h3>").text(curDateFinal);
             var currentPic = res.weather[0].icon
             var currentIcon = "https://openweathermap.org/img/wn/" + currentPic + ".png"
             var temp = $("<h4>").text("Temperature: " + res.main.temp + " F");
@@ -43,16 +48,12 @@ $(document).ready(function () {
             var long = res.coord.lon
             var lat = res.coord.lat
 
-
-
-
             cardContent.append(name);
+            cardContent.append(curDate);
             cardContent.append(currentImg);
             cardContent.append(temp);
             cardContent.append(humidity);
             cardContent.append(wind);
-           
-
 
             $(".currentWeather").append(cardContent)
 
@@ -61,19 +62,20 @@ $(document).ready(function () {
                 url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude={part}&appid=${apiKey}&units=imperial`,
                 dataType: "json"
             }).then(function (res) {
-                console.log(res.daily[0].sunrise)
 
                 var uVindex = $("<h4>").text("UV Index: " + res.current.uvi);
 
                 for (let index = 0; index <= 4; index++) {
                     var dayNumber = index +1;
                     var fiveDayPic = res.daily[index].weather[0].icon;
+                    //Here is where I start the calculation for the date
                     var unixTimestamp = res.daily[index].sunrise;
                     var unixMili = unixTimestamp * 1000;
                     var calcDate = new Date(unixMili);
+                    //Here I am converting date to a string and then splitting out what I want at ,
                     var finalDate = calcDate.toLocaleString().split(",");
+                    //Here I am setting the final date (cant believe it worked)
                     var test = finalDate[0];
-                    console.log(test);
                     var date = $("<p>").text(test);
                     var temp= $("<p>").text("Temp: " + res.daily[index].temp.day + " F");
                     var humidity = $("<p>").text("Humidity: " + res.daily[index].humidity + " %");
@@ -90,6 +92,15 @@ $(document).ready(function () {
                 }
             
                 cardContent.append(uVindex)
+
+                // function uvIndexFun (){
+                //     if(uVindex>10){
+                        
+                        
+                //     }
+                
+                
+                // }
 
             })
 
