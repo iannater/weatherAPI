@@ -16,29 +16,47 @@
 </header>
 
 <body>
-    <div id="search" class="card">
-        <div class="card-body">
-            Search for City:
-            <br>
-            <input id='input' placeholder="City Name"></input>
-            <button type="button" class="btn searchBtn btn-primary"><i class="fa fa-search"></i></button>
+    <div class="container">
+        <div class="row justify-content-md-center">
+        <div id="search" class="card col-4">
+            <div class="card-body">
+                Search for City:
+                <br>
+                <input id='input' placeholder="City Name"></input>
+                <button type="button" class="btn searchBtn btn-primary"><i class="fa fa-search"></i></button>
 
-            <ul id='history'></ul>
+                <ul id='history'></ul>
+            </div>
         </div>
-    </div>
-    <div class="currentWeather">
 
-    </div>
-    <div id="forecast">
-        <h2>5-Day Forecast:</h2>
+       
+            <div class="currentWeather col-6"></div>
+        </div>
+        <div class="row">
+            <div class="col" id="forecast">
+                <h2>5-Day Forecast:</h2>
+                <div class="container">
+                    <div class="row justify-content-md-center">
+                        <div id="day1" class="forCard bg-primary card col-md-2">
+                            <div class="card-body"></div>
+                        </div>
+                        <div id="day2" class="forCard bg-primary card col-md-2">
+                            <div class="card-body"></div>
+                        </div>
+                        <div id="day3" class="forCard bg-primary card col-md-2">
+                            <div class="card-body"></div>
+                        </div>
+                        <div id="day4" class="forCard bg-primary card col-md-2">
+                            <div class="card-body"></div>
+                        </div>
+                        <div id="day5" class="forCard bg-primary card col-md-2">
+                            <div class="card-body"></div>
+                        </div>
+                    </div>
+                </div>
 
-        <div id="day1" class="card"></div>
-        <div id="day2" class="card"></div>
-        <div id="day3" class="card"></div>
-        <div id="day4" class="card"></div>
-        <div id="day5" class="card"></div>
-
-
+            </div>
+        </div>
     </div>
 
 

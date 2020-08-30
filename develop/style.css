@@ -6,12 +6,16 @@ h1{
     color: white;
 }
 
-#forecast{
-    border: 5px solid black;
+.currentWeather{
+    border: solid black 1px;
+
 }
 
-.currentWeather{
-    border: 5px solid black;
+.forCard{
+    margin: auto;
+}
 
+p{
+    color: white;
 }
 
