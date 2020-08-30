@@ -24,7 +24,7 @@ $(document).ready(function () {
             url: `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=imperial`,
             dataType: "json"
         }).then(function (res) {
-
+            console.log(res.weather[0].icon)
 
             if (history.indexOf(city) === -1) {
                 history.push(city)
@@ -33,9 +33,13 @@ $(document).ready(function () {
 
             var cardContent = $("<div>");
             var name = $("<h3>").text(res.name);
+            var currentPic = res.weather[0].icon
+            var currentIcon = "https://openweathermap.org/img/wn/" + currentPic + ".png"
             var temp = $("<h4>").text("Temperature: " + res.main.temp + " F");
             var humidity = $("<h4>").text("Humidity: " + res.main.humidity + "%");
             var wind = $("<h4>").text("Wind Speed: " + res.wind.speed + " MPH");
+            var currentImg = $("<img>").attr("src", currentIcon).attr("style", "width: 100px")
+
             var long = res.coord.lon
             var lat = res.coord.lat
 
@@ -43,9 +47,11 @@ $(document).ready(function () {
 
 
             cardContent.append(name);
+            cardContent.append(currentImg);
             cardContent.append(temp);
             cardContent.append(humidity);
             cardContent.append(wind);
+           
 
 
             $(".currentWeather").append(cardContent)
@@ -55,20 +61,30 @@ $(document).ready(function () {
                 url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude={part}&appid=${apiKey}&units=imperial`,
                 dataType: "json"
             }).then(function (res) {
+                console.log(res.daily[0].sunrise)
 
                 var uVindex = $("<h4>").text("UV Index: " + res.current.uvi);
 
-                for (let index = 0; index <= 4; index++)  {
-                    var dayNumber = index +1
-                    var fiveDayPic = res.daily[index].weather[0].icon
-                    var day = $("<p>").text("Temp: " + res.daily[index].temp.day + " F");
+                for (let index = 0; index <= 4; index++) {
+                    var dayNumber = index +1;
+                    var fiveDayPic = res.daily[index].weather[0].icon;
+                    var unixTimestamp = res.daily[index].sunrise;
+                    var unixMili = unixTimestamp * 1000;
+                    var calcDate = new Date(unixMili);
+                    var finalDate = calcDate.toLocaleString().split(",");
+                    var test = finalDate[0];
+                    console.log(test);
+                    var date = $("<p>").text(test);
+                    var temp= $("<p>").text("Temp: " + res.daily[index].temp.day + " F");
                     var humidity = $("<p>").text("Humidity: " + res.daily[index].humidity + " %");
-                    var imageEl = $("<img>").attr("src", fiveDayIcon).attr("style", "width: 50px")
-                    var fiveDayIcon = "https://openweathermap.org/img/wn/" + fiveDayPic + ".png"
+                    var fiveDayIcon = "https://openweathermap.org/img/wn/" + fiveDayPic + ".png";
+                    var imageEl = $("<img>").attr("src", fiveDayIcon).attr("style", "width: 50px");
                     
-                    $("#day" + dayNumber).append(day)
-                    $("#day" + dayNumber).append(humidity)
-                    $("#day" + dayNumber).append(imageEl)
+                    
+                    $("#day" + dayNumber).append(date);
+                    $("#day" + dayNumber).append(temp);
+                    $("#day" + dayNumber).append(humidity);
+                    $("#day" + dayNumber).append(imageEl);
                     
 
                 }
